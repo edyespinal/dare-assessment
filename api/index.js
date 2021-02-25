@@ -25,7 +25,7 @@ exports.getPolicies = async (req, res, next) => {
     const requestPolicies = await insuranceApiRequest(req.token.access_token, 'policies')
 
     // paginate the results from the request
-    const policies = paginate(requestPolicies.data, req.query.page, req.query.limit)
+    const policies = paginate(requestPolicies, req.query.page, req.query.limit)
 
     // add the policies to response
     res.policies = { code: 200, policies }
@@ -44,7 +44,7 @@ exports.policiesClientDetails = async (req, res, next) => {
 
     // get policies' client details
     const { id } = req.params
-    const clientDetails = requestPolicies.data.filter((policy) => policy.clientId === id)
+    const clientDetails = requestPolicies.filter((policy) => policy.clientId === id)
 
     // add clientDetails to response
     res.clientDetails = { code: 200, clientDetails }
@@ -61,7 +61,7 @@ exports.getClients = async (req, res, next) => {
     const requestClients = await insuranceApiRequest(req.token.access_token, 'clients')
 
     // paginate results (page 1 and limit 10 by default)
-    const clients = paginate(requestClients.data, req.query.page, req.query.limit)
+    const clients = paginate(requestClients, req.query.page, req.query.limit)
 
     // add clients to response
     res.clients = { code: 200, clients }
@@ -79,7 +79,7 @@ exports.getClientsDetails = async (req, res, next) => {
 
     // get client details
     const { id } = req.params
-    const clientDetails = requestClients.data.filter((client) => client.id === id)[0]
+    const clientDetails = requestClients.filter((client) => client.id === id)[0]
 
     // add clientDetails to response
     res.clientDetails = clientDetails
@@ -98,13 +98,13 @@ exports.getClientsPolicies = async (req, res, next) => {
 
     // get client
     const { id } = req.params
-    const clientDetails = requestClients.data.filter((client) => client.id === id)[0]
+    const clientDetails = requestClients.filter((client) => client.id === id)[0]
 
     // request policies from API
     const requestPolicies = await insuranceApiRequest(req.token.access_token, 'policies')
 
     // get client policies
-    const clientPolicies = requestPolicies.data.filter((policy) => policy.clientId === clientDetails.id)
+    const clientPolicies = requestPolicies.filter((policy) => policy.clientId === clientDetails.id)
 
     // add client' policies to response
     res.clientPolicies = clientPolicies

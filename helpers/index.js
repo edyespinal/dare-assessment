@@ -13,8 +13,8 @@ exports.setToken = async (req, res, next) => {
 }
 
 /** make a request to the insurance API */
-exports.insuranceApiRequest = (token, endpoint) => {
-  const request = axios({
+exports.insuranceApiRequest = async (token, endpoint) => {
+  const request = await axios({
     method: 'get',
     headers: { accept: 'application/json', authorization: `Bearer ${token}` },
     url: `https://dare-nodejs-assessment.herokuapp.com/api/${endpoint}`,
