@@ -13,5 +13,7 @@ module.exports = {
   rules: {
     semi: ['error', 'never'],
     'linebreak-style': 0,
+    'import/newline-after-import': 0,
+    'no-var': 'error',
   },
 }
